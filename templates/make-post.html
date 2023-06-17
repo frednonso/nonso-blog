@@ -1,0 +1,68 @@
+
+{% block content %}
+{% include "header.html" %}
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/edit-bg.jpg')}}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            {% if is_edit: %}
+            <h1>Edit Post</h1>
+            {% else: %}
+            <h1>New Post</h1>
+            {% endif %}
+            <span class="subheading">You're going to make a great blog post!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <form action="{{ url_for('add_new_post') }}" method="post" novalidate>
+          {{ form.csrf_token }}
+          <p>
+            {{ form.title.label }} <br> {{ form.title(size=60) }}
+            {% for err in form.title.errors %}
+            <span class="text-danger"> {{ err }}</span>
+            {% endfor %}
+          </p>
+
+          <p>
+          {{ form.subtitle.label }} <br> {{ form.subtitle(size=60) }}
+          {% for err in form.subtitle.errors %}
+          <span class="text-danger"> {{ err }} </span>
+          {% endfor %}
+          </p>
+
+          <p>
+            {{ form.img_url.label }} <br> {{ form.img_url(size=60) }}
+            {% for err in form.img_url.errors %}
+            <span class="text-danger"> {{ err }}</span>
+            {% endfor %}
+          </p>
+
+
+          <p>
+            {{ form.body.label }} <br> {{ form.body(size=60) }}
+            {% for err in form.body.errors %}
+            <span class="text-danger"> {{ err }}</span>
+            {% endfor %}
+          </p>
+
+          <p>
+            {{ form.submit(class_="btn btn-primary") }}
+          </p>
+        </form>
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='body') }}
+      </div>
+    </div>
+  </div>
+
+{% include "footer.html" %}
+{% endblock %}
